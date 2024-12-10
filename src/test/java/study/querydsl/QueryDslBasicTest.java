@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.Team;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static study.querydsl.entity.QMember.member;
 
@@ -72,5 +74,25 @@ public class QueryDslBasicTest {
         assertThat(findMember.getUsername()).isEqualTo("member1");
     }
 
+
+    @Test
+    public void searchAndParam() {
+        Member findMember = qf.selectFrom(member)
+                .where(
+                        member.username.eq("member1"),
+                        member.age.eq(10)
+                )
+                .fetchOne();
+
+        assertThat(findMember.getUsername()).isEqualTo("member1");
+    }
+
+    @Test
+    public void resultFetch(){
+        List<Member> fetch = qf.selectFrom(member).fetch();
+        Member fetchOne = qf.selectFrom(member).fetchOne();
+        Member fetchFirst = qf.selectFrom(member).fetchFirst();
+
+    }
 
 }
